@@ -12,8 +12,8 @@ https://github.com/twentiecker/filtering-rabbitmq-python.git
 
 ## Demo Aplikasi
 
-Aplikasi ini menghasilkan dua aplikasi, yaitu broadcaster.exe dan receiver.exe. Broadcaster berperan sebagai pengirim pesan
-sedangkan Receiver berperan sebagai penerima pesan. Aplikasi demo berada pada folder <code>dist/</code>.
+Aplikasi ini menghasilkan dua aplikasi, yaitu emitter (emitter_win dan emitter_con.exe) dan receiver.exe. Emitter berperan sebagai pengirim pesan
+sedangkan Receiver berperan sebagai penerima pesan. Terdapat dua jenis aplikasi emitter yang sudah disediakan sebagai demo aplikasi, yaitu emitter_win (windows UI) dan emitter_con.exe (console UI). Aplikasi demo berada pada folder <code>dist/</code>.
 
 ## Setup RabbitMQ libraries
 
