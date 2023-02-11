@@ -17,12 +17,14 @@ def connect():
     # properti GUI
     txt_pesan.config(state="normal")
     txt_tujuan.config(state="normal")
+    txt_filter.config(state="normal")
     btn_connect.config(state="disabled")
     btn_kirim.config(state="active")
     btn_disconnect.config(state="active")
     lbl_status.config(text="Connected!", state="active")
     lbl_pesan.config(state="active")
     lbl_tujuan.config(state="active")
+    lbl_filter.config(state="active")
     lbl_list.config(state="active")
     return connection
 
@@ -31,24 +33,18 @@ def connect():
 def kirim():
     channel = connect().channel()
     channel.exchange_declare(
-        exchange=tujuan,  # menentukan nama queue
+        exchange=txt_tujuan.get(),  # menentukan nama queue
         exchange_type='direct'  # param untuk mempertahankan queue meskipun server rabbitMQ berhenti
     )
     channel.basic_publish(
-        exchange=tujuan,
-        routing_key=severity,  # nama queue
-        body=message,  # isi pesan dari queue yang dikirim
-    )
-
-    channel.basic_publish(
         exchange=txt_tujuan.get(),
-        routing_key='',  # nama queue
+        routing_key=txt_filter.get(),  # nama queue
         body=txt_pesan.get(),  # isi pesan dari queue yang dikirim
     )
 
     # properti GUI
     txt_list.config(state="normal")
-    txt_list.insert(tk.INSERT, f""" [x] "{txt_pesan.get()}" Sent to {txt_tujuan.get()}\n""")
+    txt_list.insert(tk.INSERT, f""" [x] "{txt_pesan.get()}" Sent to {txt_tujuan.get()} as {txt_filter.get()}\n""")
     txt_list.config(state="disabled")
     txt_pesan.delete(0, tk.END)
 
@@ -60,9 +56,10 @@ def disconnect():
     # properti GUI
     txt_pesan.delete(0, tk.END)
     txt_pesan.config(state="disabled")
-    txt_pesan.config(state="disabled")
     txt_tujuan.delete(0, tk.END)
     txt_tujuan.config(state="disabled")
+    txt_filter.delete(0, tk.END)
+    txt_filter.config(state="disabled")
     txt_list.config(state="normal")
     txt_list.delete('1.0', tk.END)
     txt_list.config(state="disabled")
@@ -72,6 +69,7 @@ def disconnect():
     lbl_status.config(text="Disconnected!", state="disabled")
     lbl_pesan.config(state="disabled")
     lbl_tujuan.config(state="disabled")
+    lbl_filter.config(state="disabled")
     lbl_list.config(state="disabled")
 
 
@@ -81,7 +79,7 @@ list_pesan = []
 # membuat window
 app = tk.Tk()
 app.geometry("425x660")
-app.title("Emiter")
+app.title("Emitter")
 
 # membuat label dan text tujuan
 lbl_tujuan = tk.Label(text="Tujuan", state="disabled")
